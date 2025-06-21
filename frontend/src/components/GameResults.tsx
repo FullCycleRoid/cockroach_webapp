@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGameContext } from '../context/GameContext';
+import { useGameContext } from './GameContext';
 import { GameState } from '../types/gameTypes';
 
 const GameResults: React.FC = () => {

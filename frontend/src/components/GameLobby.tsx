@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGameContext } from '../context/GameContext';
+import { useGameContext } from './GameContext';
 import { GameState, GameInvite } from '../types/gameTypes';
 
 const GameLobby: React.FC = () => {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useGameContext } from '../context/GameContext';
+import { useGameContext } from './GameContext';
 import * as api from '../api/gameApi';
 import { Player } from '../types/gameTypes';
 

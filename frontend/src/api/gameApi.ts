@@ -1,39 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://api.your-domain.com/api';
-
-// Типы данных
-export interface Player {
-  id: string;
-  username: string;
-  first_name: string;
-  last_name?: string;
-}
-
-export interface GameInvite {
-  id: string;
-  game_id: string;
-  player_id: string;
-  status: string;
-  created_at: string;
-}
-
-export interface GameState {
-  id: string;
-  state: {
-    cells: Record<string, { type: string; player: number | null }>;
-    current_player: number;
-    remaining_moves: number;
-    activated_walls: string[];
-    is_game_over: boolean;
-    winner: number | null;
-  };
-  current_player_id: string;
-  status: string;
-  winner_id: string | null;
-  created_at: string;
-  updated_at: string;
-}
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 // Создать новую игру
 export const createGame = async (telegramId: string): Promise<GameState> => {
@@ -45,13 +12,8 @@ export const createGame = async (telegramId: string): Promise<GameState> => {
 
 // Пригласить игрока
 export const invitePlayer = async (gameId: string, telegramUsername: string): Promise<GameInvite> => {
-  // Получаем ID игрока по username
-  const playerResponse = await axios.get(`${API_BASE_URL}/players/username/${telegramUsername}`);
-  const playerId = playerResponse.data.telegram_id;
-
-  const response = await axios.post(`${API_BASE_URL}/invites`, {
-    game_id: gameId,
-    player_id: playerId
+  const response = await axios.post(`${API_BASE_URL}/games/${gameId}/invite`, {
+    username: telegramUsername
   });
   return response.data;
 };

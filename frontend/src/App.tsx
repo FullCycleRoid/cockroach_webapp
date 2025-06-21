@@ -1,9 +1,46 @@
 import React from 'react';
-import { GameProvider } from './context/GameContext';
+import { GameProvider } from './components/GameContext';
 import TelegramAuth from './components/TelegramAuth';
 import GameLobby from './components/GameLobby';
-import GameBoard from './components/GameBoard';
+import GameBoard from './GameBoard';
+import GameResults from './components/GameResults';
 import './App.css';
+
+const GameRouter: React.FC = () => {
+  const { currentGame } = useGameContext();
+
+  return (
+    <>
+      {currentGame ? (
+        <>
+          <GameBoard />
+          {currentGame.state.is_game_over && <GameResults />}
+        </>
+      ) : (
+        <GameLobby />
+      )}
+
+      {currentGame && !currentGame.state.is_game_over && (
+        <button
+          style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            padding: '8px 15px',
+            backgroundColor: '#f44336',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+          onClick={() => setCurrentGame(null)}
+        >
+          В лобби
+        </button>
+      )}
+    </>
+  );
+};
 
 function App() {
   return (
@@ -15,27 +52,5 @@ function App() {
     </GameProvider>
   );
 }
-
-const GameRouter: React.FC = () => {
-  const { currentGame } = useGameContext();
-
-  return (
-    <>
-      {currentGame ? (
-        <GameBoard />
-      ) : (
-        <GameLobby />
-      )}
-
-      {currentGame && (
-        <button
-          className="back-to-lobby"
-          onClick={() => setCurrentGame(null)}>
-          Вернуться в лобби
-        </button>
-      )}
-    </>
-  );
-};
 
 export default App;

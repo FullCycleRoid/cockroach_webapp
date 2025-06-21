@@ -1,5 +1,6 @@
-import React from 'react';
-import { useGameContext } from './GameContext';
+import React, { useState } from 'react';
+import { useGameContext } from '../context/GameContext';
+import { GameState, GameInvite } from '../types/gameTypes';
 
 const GameLobby: React.FC = () => {
   const {
@@ -9,7 +10,8 @@ const GameLobby: React.FC = () => {
     invitePlayer,
     acceptInvite,
     loadGame,
-    telegramUser
+    telegramUser,
+    setCurrentGame
   } = useGameContext();
 
   const [usernameToInvite, setUsernameToInvite] = useState('');
@@ -20,9 +22,9 @@ const GameLobby: React.FC = () => {
     await createGame(telegramUser.id);
   };
 
-  const handleInvitePlayer = async (gameId: string) => {
-    if (!usernameToInvite) return;
-    await invitePlayer(gameId, usernameToInvite);
+  const handleInvitePlayer = async () => {
+    if (!selectedGameId || !usernameToInvite) return;
+    await invitePlayer(selectedGameId, usernameToInvite);
     setUsernameToInvite('');
   };
 
@@ -33,16 +35,18 @@ const GameLobby: React.FC = () => {
 
   return (
     <div className="lobby-container">
-      <h2>Мои игры</h2>
+      <h2>Лобби игры "Тараканы"</h2>
 
-      <button onClick={handleCreateGame} className="create-game-btn">
-        Создать новую игру
-      </button>
+      <div className="section">
+        <button onClick={handleCreateGame} className="create-game-btn">
+          Создать новую игру
+        </button>
+      </div>
 
       <div className="section">
         <h3>Активные игры</h3>
         {activeGames.length === 0 ? (
-          <p>Нет активных игр</p>
+          <p>У вас нет активных игр</p>
         ) : (
           <ul className="games-list">
             {activeGames.map(game => (
@@ -65,13 +69,13 @@ const GameLobby: React.FC = () => {
       <div className="section">
         <h3>Мои приглашения</h3>
         {invites.length === 0 ? (
-          <p>Нет приглашений</p>
+          <p>У вас нет приглашений</p>
         ) : (
           <ul className="invites-list">
             {invites.map(invite => (
               <li key={invite.id} className="invite-item">
                 <div>
-                  <span>Приглашение от: {invite.creator.username}</span>
+                  <span>Приглашение в игру #{invite.game_id.slice(0, 6)}</span>
                   <span>Статус: {invite.status}</span>
                 </div>
                 {invite.status === 'pending' && (
@@ -87,20 +91,37 @@ const GameLobby: React.FC = () => {
         )}
       </div>
 
-      {selectedGameId && (
+      {activeGames.length > 0 && (
         <div className="invite-section">
-          <h4>Пригласить игрока в игру #{selectedGameId.slice(0, 6)}</h4>
-          <div className="invite-form">
+          <h4>Пригласить игрока</h4>
+          <div className="invite-controls">
+            <select
+              value={selectedGameId}
+              onChange={(e) => setSelectedGameId(e.target.value)}
+              className="game-select"
+            >
+              <option value="">Выберите игру</option>
+              {activeGames.map(game => (
+                <option key={game.id} value={game.id}>
+                  Игра #{game.id.slice(0, 6)}
+                </option>
+              ))}
+            </select>
+
             <input
               type="text"
               value={usernameToInvite}
               onChange={(e) => setUsernameToInvite(e.target.value)}
-              placeholder="@username игрока"
+              placeholder="Введите @username"
+              className="username-input"
             />
+
             <button
-              onClick={() => handleInvitePlayer(selectedGameId)}
-              disabled={!usernameToInvite}>
-              Отправить приглашение
+              onClick={handleInvitePlayer}
+              disabled={!selectedGameId || !usernameToInvite}
+              className="invite-btn"
+            >
+              Пригласить
             </button>
           </div>
         </div>

@@ -1,48 +1,26 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { GameProvider } from './components/GameContext';
 import TelegramAuth from './components/TelegramAuth';
-import GameLobby from './components/GameLobby';
-import GameBoard from './GameBoard';
-import GameResults from './components/GameResults';
+import GameRouter from './components/GameRouter';
 import './App.css';
 
-const GameRouter: React.FC = () => {
-  const { currentGame } = useGameContext();
+interface AppProps {
+  isWebApp?: boolean;
+  webApp?: any;
+}
 
-  return (
-    <>
-      {currentGame ? (
-        <>
-          <GameBoard />
-          {currentGame.state.is_game_over && <GameResults />}
-        </>
-      ) : (
-        <GameLobby />
-      )}
+function App({ isWebApp, webApp }: AppProps) {
+  useEffect(() => {
+    if (isWebApp && webApp) {
+      try {
+        webApp.setHeaderColor('#4CAF50');
+        webApp.setBackgroundColor('#f0f2f5');
+      } catch (error) {
+        console.error('Error setting Telegram WebApp colors:', error);
+      }
+    }
+  }, [isWebApp, webApp]);
 
-      {currentGame && !currentGame.state.is_game_over && (
-        <button
-          style={{
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            padding: '8px 15px',
-            backgroundColor: '#f44336',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-          onClick={() => setCurrentGame(null)}
-        >
-          В лобби
-        </button>
-      )}
-    </>
-  );
-};
-
-function App() {
   return (
     <GameProvider>
       <div className="App">

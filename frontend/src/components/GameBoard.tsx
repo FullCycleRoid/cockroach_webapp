@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGameContext } from '../context/GameContext';
+import { useGameContext } from './GameContext';
 import { GameState, LocalGameState, CellType } from '../types/gameTypes';
 
 // Константы игры

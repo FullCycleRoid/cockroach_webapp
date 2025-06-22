@@ -1,7 +1,6 @@
 # Cockroach paper game
 
-Game access by domain
-
+Access game by
 https://cockroach-webapp.vercel.app/
 
 

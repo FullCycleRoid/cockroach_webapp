@@ -1,0 +1,91 @@
+:root {
+  --tg-bg-color: #17212b;
+  --tg-text-color: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--tg-bg-color);
+  color: var(--tg-text-color);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.app-container {
+  max-width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.game-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--tg-text-color);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.telegram-info {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 600px) {
+  .app-container {
+    padding: 10px;
+  }
+
+  .game-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Ультра-кислотный стиль для игровых элементов */
+.player-info {
+  background-color: rgba(15, 15, 31, 0.9);
+  padding: 12px;
+  margin: 10px 0;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid transparent;
+  animation: colorPulseFixed 2s infinite alternate;
+}
+
+@keyframes colorPulseFixed {
+  0% {
+    box-shadow: 0 0 15px #00ffff, inset 0 0 15px #ff00ff;
+    border-color: rgba(255, 0, 255, 0.9);
+  }
+  50% {
+    box-shadow: 0 0 20px #ff00ff, inset 0 0 20px #00ffff;
+    border-color: rgba(0, 255, 255, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 25px #ffff00, inset 0 0 15px #ff00ff;
+    border-color: rgba(255, 255, 0, 0.9);
+  }
+}
+
+/* Анимации для игровых элементов */
+@keyframes scan {
+  from { transform: translateY(-100%) rotate(45deg); }
+  to { transform: translateY(100%) rotate(45deg); }
+}
+
+@keyframes textGlitchFixed {
+  0%, 100% { text-shadow: 0 0 10px #ff00ff; }
+  25% { text-shadow: -1px 0 12px #00ffff, 1px 0 8px #ffff00; }
+  50% { text-shadow: 0 0 15px #ffff00, 0 0 20px #ff00ff; }
+  75% { text-shadow: 2px 0 12px #ff00ff, -2px 0 15px #00ffff; }
+}
+
+@keyframes bgPulse {
+  0% { background-color: rgba(10, 10, 26, 0.8); opacity: 0.9; }
+  100% { background-color: rgba(25, 25, 50, 0.8); opacity: 1; }
+}

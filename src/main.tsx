@@ -8,8 +8,11 @@ function initTelegramWebApp() {
   if (window.Telegram?.WebApp) {
     try {
       const webApp = window.Telegram.WebApp;
+
+      // Инициализация
       webApp.ready();
       webApp.expand();
+
       console.log('Telegram WebApp initialized');
       return webApp;
     } catch (error) {
